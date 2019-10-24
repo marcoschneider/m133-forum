@@ -1,0 +1,47 @@
+body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Ubuntu', sans-serif;
+}
+
+.login .btn, .register .btn {
+	margin-top: 10px;
+	margin-bottom: 20px;
+	margin-left: 0;
+}
+
+.container.login, .container.register {
+	margin: 100px auto;
+	width: 35%;
+}
+
+body .container .error-message p, body .container .success-message p {
+	padding: 10px 15px;
+	margin: 5px 0;
+	border-radius: 3px;
+}
+
+@media (max-width: 952px) {
+	.container.login, .container.register {
+		width: 60%;
+	}
+}
+
+@media (max-width: 475px) {
+	.container.login, .container.register {
+		width: 80%;
+	}
+}
+
+.question-overview .card {
+	height: 235px;
+}
+
+.tags-wrapper {
+	margin-top: 15px;
+}
+
+.tags {
+	border-radius: 45px;
+	padding: 5px 15px;
+}
