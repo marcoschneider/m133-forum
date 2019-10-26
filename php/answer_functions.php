@@ -4,9 +4,7 @@
 	require_once "global_functions.php";
 
 	function getAnswerById($aid) {
-		$error = [
-			"message" => ''
-		];
+    $conn = connection();
 		$aid = escape($aid);
 		$sql = "
 			SELECT
@@ -15,15 +13,28 @@
 			FROM m133_forum.answer
 			WHERE id = " . $aid . "
 		";
-		$query = mysqli_query(connection(), $sql);
+		$query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 		return fetch($query, "Konnte die gewünschte Antwort nicht finden.");
 	}
 
-	function updateAnswerById($aid, $answer_text) {
-		$error = [
-			"message" => ''
-		];
+	function deleteAnswerById($aid) {
+	  $conn = connection();
+    $aid = escape($aid);
+    $sql = "
+      DELETE FROM
+        m133_forum.answer
+      WHERE id = " . $aid . "
+    ";
+    $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 
+    if ($query) {
+      return true;
+    }
+    return false;
+  }
+
+	function updateAnswerById($aid, $answer_text) {
+	  $conn = connection();
 		$aid = escape($aid);
 		$answer_text = escape($answer_text);
 
@@ -32,18 +43,12 @@
 				m133_forum.answer
 			SET
 				answer_text = '" . $answer_text . "'
-			FROM m133_forum.answer
 			WHERE id = " . $aid . "
 		";
-		$query = mysqli_query(connection(), $sql);
-		return fetch($query, "Konnte die gewünschte Antwort nicht finden.");
+		return mysqli_query($conn, $sql) or die(mysqli_error($conn));
 	}
 
 	function getAnswersByQuestionId($qid, $limit = null) {
-		$answers = [];
-		$error = [
-			"message" => ''
-		];
 		$limit_sql = '';
 		if ($limit !== null) {
 			$limit_sql = "LIMIT " . $limit;

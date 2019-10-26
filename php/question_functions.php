@@ -78,6 +78,7 @@
 
 	function updateQuestion($qid, $values) {
 	  $conn = connection();
+	  $queries = [];
 
     $sql = "
       UPDATE
@@ -88,28 +89,59 @@
       WHERE id = " . $qid . "
     ";
     $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
-
-    foreach($values['question_tags'] as $tag) {
-      $update_question_tag_sql = "
-        UPDATE
-          m133_forum.question_tag
-        SET fk_tag = " . $tag . "
-        WHERE fk_question = " . $qid . "
-      ";
-      mysqli_query($conn, $update_question_tag_sql) or die(mysqli_error($conn));
-    }
-
-    foreach($values['question_topics'] as $topic) {
-      $update_question_topic_sql = "
-        UPDATE
-          m133_forum.question_topic
-        SET fk_topic = " . $topic . "
-        WHERE fk_question = " . $qid . "
-      ";
-      mysqli_query($conn, $update_question_topic_sql) or die(mysqli_error($conn));
-    }
-
     if ($query) {
+      $queries['success'] = '';
+    } else {
+      $queries['errors'] = '';
+    }
+
+    $delete_question_tag_sql = "
+        DELETE FROM
+          m133_forum.question_tag
+        WHERE fk_question = " . $qid . "
+      ";
+    $deleteTagsSuccess = mysqli_query($conn, $delete_question_tag_sql) or die(mysqli_error($conn));
+    if ($deleteTagsSuccess ) {
+      $queries['success'] = '';
+    } else {
+      $queries['errors'] = '';
+    }
+
+    if ($values['question_tags'] != null) {
+      foreach($values['question_tags'] as $tag) {
+        $isSaved = setTag($qid, $tag);
+        if ($isSaved) {
+          $queries['success'] = '';
+        } else {
+          $queries['errors'] = '';
+        }
+      }
+    }
+
+    $delete_question_topic_sql = "
+        DELETE FROM
+          m133_forum.question_topic
+        WHERE fk_question = " . $qid . "
+      ";
+    $deleteTopicsSuccess = mysqli_query($conn, $delete_question_topic_sql) or die(mysqli_error($conn));
+    if ($deleteTopicsSuccess ) {
+      $queries['success'] = '';
+    } else {
+      $queries['errors'] = '';
+    }
+
+    if ($values['question_topics'] != null) {
+      foreach ($values['question_topics'] as $topic) {
+        $isSaved = setTopic($qid, $topic);
+        if ($isSaved) {
+          $queries['success'] = '';
+        } else {
+          $queries['errors'] = '';
+        }
+      }
+    }
+
+    if (!isset($queries['errors'])) {
       return true;
     }
     return false;

@@ -9,6 +9,10 @@ if (!isset($_SESSION['kernel']['userdata'])) {
 }
 
 if (isset($_GET['id'])) {
+  $answer['answer_text'] = '';
+  if (isset($_GET['action']) && $_GET['action'] === 'answer-edit' && isset($_GET['answer_id'])) {
+    $edited_answer = getAnswerById($_GET['answer_id']);
+  }
   $question_and_answers = getQuestionsAnswers($_GET['id']);
   $tags = getQuestionsTags($_GET['id']);
   $topics = getQuestionsTopics($_GET['id']);
@@ -27,7 +31,25 @@ if (isset($_GET['id'])) {
     if (count($form_values['errors']) === 0) {
       $isSaved = setAnswer($form_values['values']);
       if ($isSaved) {
-      	header('Location: ?' . $_SERVER['QUERY_STRING']);
+        header('Location: ?' . $_SERVER['QUERY_STRING']);
+      }
+    }
+  }
+
+  if (isset($_POST['edit_answer'])) {
+    $form_values = validateForm([
+      'answer_text' => [
+        'value' => $_POST['answer_text'],
+        'type' => 'textarea',
+        'required' => TRUE,
+      ],
+    ]);
+    $form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
+    $form_values['values']['answer_id'] = $_GET['answer_id'];
+    if (count($form_values['errors']) === 0) {
+      $isSaved = updateAnswerById($form_values['values']['answer_id'], $form_values['values']['answer_text']);
+      if ($isSaved) {
+        header('Location: ?page=question&id=' . $_GET['id']);
       }
     }
   }
@@ -145,8 +167,13 @@ if (isset($_GET['id'])) {
 						</div>
             <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
 							<div class="col s6">
-								<a href="?page=delete-answer" class="delete-answer">
+								<a href="?page=answer-delete&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>"
+								   class="delete-answer">
 									<i class="material-icons red-text">delete</i>
+								</a>
+								<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
+								   class="delete-answer">
+									<i class="material-icons green-text">edit</i>
 								</a>
 							</div>
             <?php endif; ?>
@@ -157,7 +184,11 @@ if (isset($_GET['id'])) {
 		<div class="divider"></div>
 		<div class="row">
 			<div class="col s12">
-				<h5>Kennst du die Antwort?</h5>
+        <?php if (isset($_GET['action']) && $_GET['action'] === 'answer-edit' && isset($_GET['answer_id'])) : ?>
+					<h5>Antwort bearbeiten</h5>
+        <?php else: ?>
+	        <h5>Kennst du die Antwort?</h5>
+        <?php endif; ?>
 			</div>
 		</div>
 		<div class="row">
@@ -165,15 +196,22 @@ if (isset($_GET['id'])) {
 				<div class="row">
 					<div class="input-field col s12">
 						<textarea id="answer" name="answer_text"
-						          class="materialize-textarea"></textarea>
+						          class="materialize-textarea"><?= isset($edited_answer['answer_text']) ? $edited_answer['answer_text'] : '' ?></textarea>
 						<label for="answer">Antwort</label>
 					</div>
 				</div>
 				<div class="row">
-					<button class="btn blue darken-3" type="submit" name="submit">Poste
-						Antwort
-						<i class="material-icons right">send</i>
-					</button>
+          <?php if (isset($_GET['action']) && $_GET['action'] === 'answer-edit' && isset($_GET['answer_id'])) : ?>
+						<button class="btn blue darken-3" type="submit" name="edit_answer">
+							Speichere neue Antwort
+							<i class="material-icons right">send</i>
+						</button>
+          <?php else: ?>
+						<button class="btn blue darken-3" type="submit" name="submit">Poste
+							Antwort
+							<i class="material-icons right">send</i>
+						</button>
+          <?php endif; ?>
 				</div>
 			</form>
 		</div>

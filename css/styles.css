@@ -33,6 +33,10 @@ body .container .error-message p, body .container .success-message p {
 	}
 }
 
+.question-header p {
+	margin: 0;
+}
+
 .question-overview .card {
 	height: 235px;
 }

@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
   if (count($form_values['errors']) === 0) {
     $result = updateQuestion($_GET['id'], $form_values['values']);
     if ($result) {
-    	header('Location: ?page=question&id=' . $_GET['id']);
+      header('Location: ?page=question&id=' . $_GET['id']);
     }
   }
 }
@@ -78,14 +78,14 @@ if (isset($_POST['submit'])) {
     $topics = getAllTopics();
 
     foreach ($questions_tags as $key => $questions_tag) {
-    	if ($key == $tags[$key]['id']) {
-        $tags[$key]['selected'] = true;
-	    }
+      if ($key == $tags[$key]['id']) {
+        $tags[$key]['selected'] = TRUE;
+      }
     }
 
     foreach ($questions_topics as $key => $questions_topic) {
       if ($key == $topics[$key]['id']) {
-        $topics[$key]['selected'] = true;
+        $topics[$key]['selected'] = TRUE;
       }
     }
 
@@ -96,7 +96,8 @@ if (isset($_POST['submit'])) {
 				<form class="col s12" method="post" action="">
 					<div class="row">
 						<div class="input-field col s6">
-							<input id="question_text" name="question_text" type="text" value="<?= $question['question_text'] ?>">
+							<input id="question_text" name="question_text" type="text"
+							       value="<?= $question['question_text'] ?>">
 							<label for="question_text">Frage</label>
 						</div>
 					</div>
@@ -112,7 +113,8 @@ if (isset($_POST['submit'])) {
 						<div class="input-field col s12">
 							<select id="question_tags" name="question_tags[]" multiple>
                 <?php foreach ($tags as $tid => $tag): ?>
-	                <option <?= isset($tag['selected']) ? 'selected' : '' ?> value="<?= $tag['id'] ?>"><?= $tag['tag_name'] ?></option>
+									<option <?= isset($tag['selected']) ? 'selected' : '' ?>
+											value="<?= $tag['id'] ?>"><?= $tag['tag_name'] ?></option>
                 <?php endforeach; ?>
 							</select>
 							<label for="question_tags">Tags</label>
@@ -120,7 +122,8 @@ if (isset($_POST['submit'])) {
 						<div class="input-field col s12">
 							<select id="question_topics" name="question_topics[]" multiple>
                 <?php foreach ($topics as $key => $topic): ?>
-									<option <?= isset($topic['selected']) ? 'selected' : '' ?> value="<?= $topic['id'] ?>"><?= $topic['topic_name'] ?></option>
+									<option <?= isset($topic['selected']) ? 'selected' : '' ?>
+											value="<?= $topic['id'] ?>"><?= $topic['topic_name'] ?></option>
                 <?php endforeach; ?>
 							</select>
 							<label for="question_topics">Thema</label>
