@@ -9,9 +9,23 @@ if (!isset($_SESSION['kernel']['userdata'])) {
 }
 
 if (isset($_GET['id'])) {
-  $answer['answer_text'] = '';
-  if (isset($_GET['action']) && $_GET['action'] === 'answer-edit' && isset($_GET['answer_id'])) {
-    $edited_answer = getAnswerById($_GET['answer_id']);
+  if (isset($_GET['action'])) {
+    switch ($_GET['action']) {
+      case 'answer-edit':
+        if (isset($_GET['answer_id'])) {
+          $edited_answer = getAnswerById($_GET['answer_id']);
+        }
+        break;
+      case 'downvote':
+      case 'upvote':
+        if (isset($_GET['answer_id'])) {
+          $isSaved = voteAnswerById($_GET['answer_id'], $_GET['action']);
+          if ($isSaved) {
+            header('Location: ?page=question&id=' . $_GET['id']);
+          }
+        }
+        break;
+    }
   }
   $question_and_answers = getQuestionsAnswers($_GET['id']);
   $tags = getQuestionsTags($_GET['id']);
@@ -73,9 +87,11 @@ if (isset($_GET['id'])) {
 		<div class="nav-wrapper blue darken-3">
 			<a href="?page=main" class="brand-logo">Logo</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="?logout">Logout</a></li>
 				<li>
-					<a href="?page=profile&user=<?= $_SESSION['kernel']['userdata']['username'] ?>">Profil</a>
+					<a href="?page=main">Fragen</a>
+				</li>
+				<li>
+					<a href="?page=profile">Profil</a>
 				</li>
 			</ul>
 		</div>
@@ -153,31 +169,39 @@ if (isset($_GET['id'])) {
     <?php foreach ($question_and_answers['answers'] as $answer) : ?>
 			<div class="card">
 				<div class="card-content">
-					<p><?= $answer['answer_text'] ?></p>
-				</div>
-				<div class="card-action">
 					<div class="row">
-						<div class="col s6">
-							<a class="upvote-answer">
-								<i class="material-icons green-text">done</i>
+						<div class="center left">
+							<a href="?page=question&id=<?= $_GET['id'] ?>&action=upvote&answer_id=<?= $answer['id'] ?>"
+							   class="edit-answer">
+								<i class="fas fa-caret-square-up fa-3x green-text"></i>
 							</a>
-							<a class="downvote-answer">
-								<i class="material-icons red-text">do_not_disturb_alt</i>
+							<h5 class="grey-text lighten-2"><?= $answer['points'] ?></h5>
+							<a href="?page=question&id=<?= $_GET['id'] ?>&action=downvote&answer_id=<?= $answer['id'] ?>"
+							   class="edit-answer">
+								<i class="fas fa-caret-square-down fa-3x red-text"></i>
 							</a>
 						</div>
-            <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
+						<div class="col s11 right">
+							<p><?= $answer['answer_text'] ?></p>
+						</div>
+					</div>
+				</div>
+				<div class="card-action">
+          <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
+						<h6 class="grey-text lighten-2">Authoren aktionen</h6>
+						<div class="row">
 							<div class="col s6">
+								<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
+								   class="edit-answer">
+									<i class="fas fa-edit fa-lg green-text"></i>
+								</a>
 								<a href="?page=answer-delete&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>"
 								   class="delete-answer">
-									<i class="material-icons red-text">delete</i>
-								</a>
-								<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
-								   class="delete-answer">
-									<i class="material-icons green-text">edit</i>
+									<i class="fas fa-trash-alt fa-lg red-text"></i>
 								</a>
 							</div>
-            <?php endif; ?>
-					</div>
+						</div>
+          <?php endif; ?>
 				</div>
 			</div>
     <?php endforeach; ?>
@@ -187,7 +211,7 @@ if (isset($_GET['id'])) {
         <?php if (isset($_GET['action']) && $_GET['action'] === 'answer-edit' && isset($_GET['answer_id'])) : ?>
 					<h5>Antwort bearbeiten</h5>
         <?php else: ?>
-	        <h5>Kennst du die Antwort?</h5>
+					<h5>Kennst du die Antwort?</h5>
         <?php endif; ?>
 			</div>
 		</div>
@@ -216,6 +240,8 @@ if (isset($_GET['id'])) {
 			</form>
 		</div>
 	</div>
+	<script src="https://kit.fontawesome.com/474c7db49a.js"
+	        crossorigin="anonymous"></script>
 	<script type="text/javascript" src="./js/lib/jquery.min.js"></script>
 	<script type="text/javascript" src="./js/lib/materialize.min.js"></script>
 	<script type="text/javascript" src="./js/script.js"></script>

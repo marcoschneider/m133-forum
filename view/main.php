@@ -1,10 +1,10 @@
 <?php
 	require_once "php/question_functions.php";
-	
+
 	if (!isset($_SESSION['kernel']['userdata'])) {
 		header('Location: ?page=login');
 	}
-	
+
 	$questions = getAllQuestions();
 ?>
 <!DOCTYPE html>
@@ -23,9 +23,11 @@
       <div class="nav-wrapper blue darken-3">
         <a href="#" class="brand-logo">Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="?logout">Logout</a></li>
+	        <li>
+		        <a href="?page=main">Fragen</a>
+	        </li>
           <li>
-            <a href="?page=profile&user=<?= $_SESSION['kernel']['userdata']['username'] ?>">Profil</a>
+            <a href="?page=profile">Profil</a>
           </li>
         </ul>
       </div>
@@ -77,6 +79,7 @@
         </div>
       </div>
     </div>
+    <script src="https://kit.fontawesome.com/474c7db49a.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./js/lib/jquery.min.js"></script>
     <script type="text/javascript" src="./js/lib/materialize.min.js"></script>
     <script type="text/javascript" src="./js/script.js"></script>

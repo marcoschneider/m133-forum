@@ -1,35 +1,35 @@
 <?php
-	
+
 	require_once "./php/user_functions.php";
-	
+
 	$values = [];
 	$errors = [];
 	if (isset($_POST['submit'])) {
-		
+
 		if (isset($_POST['first_name']) && $_POST['first_name'] != '') {
 			$values['first_name'] = htmlspecialchars($_POST['first_name']);
 		} else {
 			$errors['first_name'] = "Bitte den Vornamen angeben";
 		}
-		
+
 		if (isset($_POST['last_name']) && $_POST['last_name'] != '') {
 			$values['last_name'] = htmlspecialchars($_POST['last_name']);
 		} else {
 			$errors['last_name'] = "Bitte den Nachnamen angeben";
 		}
-		
+
 		if (isset($_POST['username']) && $_POST['username'] != '') {
 			$values['username'] = htmlspecialchars($_POST['username']);
 		} else {
 			$errors['username'] = "Bitte den Benutzernamen angeben";
 		}
-		
+
 		if (isset($_POST['password']) && $_POST['password'] != '') {
 			$values['pass'] = htmlspecialchars($_POST['password']);
 		} else {
 			$errors['pass'] = "Bitte das Passwort angeben";
 		}
-		
+
 		if (count($errors) === 0) {
 			if ($result = register($values)) {
 			  if (!is_array($result)) {
@@ -100,6 +100,7 @@
 				</div>
 			</div>
 		</div>
+		<script src="https://kit.fontawesome.com/474c7db49a.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./js/lib/jquery.min.js"></script>
     <script type="text/javascript" src="./js/lib/materialize.min.js"></script>
     <script type="text/javascript" src="./js/script.js"></script>

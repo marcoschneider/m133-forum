@@ -33,8 +33,8 @@
     case 'answer-delete':
       include 'view/answer_delete.php';
       break;
-    case 'answer-edit':
-      include 'view/answer_delete.php';
+    case 'profile':
+      include 'view/profile.php';
       break;
 		default:
 			echo "Diese Seite wurde nicht gefunden";

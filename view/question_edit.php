@@ -60,9 +60,11 @@ if (isset($_POST['submit'])) {
 	<div class="nav-wrapper blue darken-3">
 		<a href="?page=main" class="brand-logo">Logo</a>
 		<ul id="nav-mobile" class="right hide-on-med-and-down">
-			<li><a href="?logout">Logout</a></li>
 			<li>
-				<a href="?page=profile&user=<?= $_SESSION['kernel']['userdata']['username'] ?>">Profil</a>
+				<a href="?page=main">Fragen</a>
+			</li>
+			<li>
+				<a href="?page=profile">Profil</a>
 			</li>
 		</ul>
 	</div>
@@ -157,6 +159,7 @@ if (isset($_POST['submit'])) {
   }
   ?>
 </div>
+<script src="https://kit.fontawesome.com/474c7db49a.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="./js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="./js/lib/materialize.min.js"></script>
 <script type="text/javascript" src="./js/script.js"></script>

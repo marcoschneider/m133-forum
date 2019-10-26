@@ -26,6 +26,17 @@
 						$values[$key] = $form_item['value'];
 					}
 					break;
+        case 'password':
+          if ($form_item['required']) {
+            if (isset($form_item['value']) && $form_item['value'] !== '') {
+              $values[$key] = hash("sha256", escape($form_item['value']));
+            } else {
+              $errors[$key]['message'] = "Bitte das Feld " . $key . " ausfüllen";
+            }
+          } else {
+            $values[$key] = $form_item['value'];
+          }
+          break;
 				case 'number':
 					if ($form_item['required']) {
 						if (isset($form_item['value']) && $form_item['value'] > 0) {
