@@ -89,13 +89,28 @@ function getAnswersByQuestionId($qid, $limit = NULL) {
 			SELECT
 				id,
 				answer_text,
-        points
+        points,
+        approved
 			FROM m133_forum.answer
 			WHERE fk_question = " . $qid . "
 			" . $limit_sql . "
 		";
   $query = mysqli_query(connection(), $sql);
   return fetchAll($query);
+}
+
+function setAnswerApproved($aid) {
+  $conn = connection();
+  $sql = "
+    UPDATE
+      m133_forum.answer
+    SET approved = 1
+    WHERE id = " . $aid . "
+  ";
+
+  $query = mysqli_query($conn, $sql) or die(mysqli_error($conn));
+
+  return $query;
 }
 
 function getAllAnswers() {
@@ -119,17 +134,19 @@ function setAnswer($values) {
 				answer_text,
 			  fk_question,
 			  points,
-				fk_user
+				fk_user,
+        approved
 			)
 			VALUES (
 			  '" . $escaped_answer_text . "',
 			  " . $escaped_question_id . ",
 			  0,
-			  " . $escaped_uid . "
+			  " . $escaped_uid . ",
+			  0
 			)
 		";
   $query = mysqli_query(connection(), $sql);
-
+  
   if ($query) {
     return TRUE;
   }

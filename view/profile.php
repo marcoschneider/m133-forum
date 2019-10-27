@@ -52,7 +52,6 @@ if (isset($_POST['change_password'])) {
   ]);
 
   $form_values['values']['uid'] = $user['uid'];
-  var_dump($form_values);
   if (count($form_values['errors']) === 0) {
   	$isSaved = updatePassword($form_values['values']);
     if ($isSaved) {
@@ -80,13 +79,15 @@ if (isset($_POST['change_password'])) {
 <body>
 <nav>
 	<div class="nav-wrapper blue darken-3">
-		<a href="?page=main" class="brand-logo">Logo</a>
+		<a href="?page=main" class="brand-logo">
+			<i class="fab fa-buffer fa-2x"></i> stackoverflow
+		</a>
 		<ul id="nav-mobile" class="right hide-on-med-and-down">
 			<li>
 				<a href="?page=main">Fragen</a>
 			</li>
 			<li>
-				<a href="?page=profile">Profil</a>
+				<a href="?page=profile&profile=userdata">Profil</a>
 			</li>
 		</ul>
 	</div>
@@ -101,6 +102,9 @@ if (isset($_POST['change_password'])) {
 				</li>
 				<li class="collection-item">
 					<a href="?page=profile&profile=change-password">Passwort ändern</a>
+				</li>
+				<li class="collection-item">
+					<a href="?logout">Abmelden</a>
 				</li>
 			</ul>
 		</div>

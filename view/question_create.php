@@ -37,7 +37,10 @@
 
 		$form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
 		if (count($form_values['errors']) === 0) {
-			setQuestion($form_values['values']);
+			$result = setQuestion($form_values['values']);
+			if ($result) {
+				header('Location: ?page=main');
+			}
 		}
 	}
 ?>
@@ -55,13 +58,15 @@
   <body>
     <nav>
       <div class="nav-wrapper blue darken-3">
-        <a href="?page=main" class="brand-logo">Logo</a>
+        <a href="?page=main" class="brand-logo">
+	        <i class="fab fa-buffer fa-2x"></i> stackoverflow
+        </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
 	        <li>
 		        <a href="?page=main">Fragen</a>
 	        </li>
           <li>
-            <a href="?page=profile">Profil</a>
+            <a href="?page=profile&profile=userdata">Profil</a>
           </li>
         </ul>
       </div>

@@ -30,6 +30,12 @@
 		case 'question-edit':
 			include 'view/question_edit.php';
 			break;
+    case 'question-delete':
+      include 'view/question_delete.php';
+      break;
+    case 'answer-approve':
+      include 'view/answer_approve.php';
+      break;
     case 'answer-delete':
       include 'view/answer_delete.php';
       break;

@@ -31,6 +31,13 @@ if (isset($_GET['id'])) {
   $tags = getQuestionsTags($_GET['id']);
   $topics = getQuestionsTopics($_GET['id']);
   updateQuestionsViews($_GET['id'], $question_and_answers['question']['views']);
+  $already_approved_answer = false;
+
+  foreach ($question_and_answers['answers'] as $answer) {
+  	if ($answer['approved']) {
+  		$already_approved_answer = true;
+	  }
+  }
 
   if (isset($_POST['submit'])) {
     $form_values = validateForm([
@@ -85,13 +92,15 @@ if (isset($_GET['id'])) {
 	<body>
 	<nav>
 		<div class="nav-wrapper blue darken-3">
-			<a href="?page=main" class="brand-logo">Logo</a>
+			<a href="?page=main" class="brand-logo">
+				<i class="fab fa-buffer fa-2x"></i> stackoverflow
+			</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
 				<li>
 					<a href="?page=main">Fragen</a>
 				</li>
 				<li>
-					<a href="?page=profile">Profil</a>
+					<a href="?page=profile&profile=userdata">Profil</a>
 				</li>
 			</ul>
 		</div>
@@ -104,6 +113,10 @@ if (isset($_GET['id'])) {
 				</div>
 				<div class="col s3">
           <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
+						<a href="?page=question-delete&id=<?= $_GET['id'] ?>"
+						   class="btn-floating btn-large right red">
+							<i class="material-icons">delete</i>
+						</a>
 						<a href="?page=question-edit&id=<?= $_GET['id'] ?>"
 						   class="btn-floating btn-large right blue darken-3">
 							<i class="material-icons">edit</i>
@@ -167,41 +180,55 @@ if (isset($_GET['id'])) {
 			</div>
     <?php endif; ?>
     <?php foreach ($question_and_answers['answers'] as $answer) : ?>
-			<div class="card">
-				<div class="card-content">
-					<div class="row">
-						<div class="center left">
-							<a href="?page=question&id=<?= $_GET['id'] ?>&action=upvote&answer_id=<?= $answer['id'] ?>"
-							   class="edit-answer">
-								<i class="fas fa-caret-square-up fa-3x green-text"></i>
-							</a>
-							<h5 class="grey-text lighten-2"><?= $answer['points'] ?></h5>
-							<a href="?page=question&id=<?= $_GET['id'] ?>&action=downvote&answer_id=<?= $answer['id'] ?>"
-							   class="edit-answer">
-								<i class="fas fa-caret-square-down fa-3x red-text"></i>
-							</a>
-						</div>
-						<div class="col s11 right">
-							<p><?= $answer['answer_text'] ?></p>
-						</div>
-					</div>
+			<div class="row valign-wrapper">
+				<div class="col s1">
+          <?php if ($answer['approved']): ?>
+						<i class="far fa-check-circle fa-3x green-text"></i>
+          <?php endif; ?>
 				</div>
-				<div class="card-action">
-          <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
-						<h6 class="grey-text lighten-2">Authoren aktionen</h6>
-						<div class="row">
-							<div class="col s6">
-								<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
-								   class="edit-answer">
-									<i class="fas fa-edit fa-lg green-text"></i>
-								</a>
-								<a href="?page=answer-delete&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>"
-								   class="delete-answer">
-									<i class="fas fa-trash-alt fa-lg red-text"></i>
-								</a>
+				<div class="col s11">
+					<div class="card">
+						<div class="card-content">
+							<div class="row">
+								<div class="center left">
+									<a href="?page=question&id=<?= $_GET['id'] ?>&action=upvote&answer_id=<?= $answer['id'] ?>"
+									   class="edit-answer">
+										<i class="fas fa-caret-square-up fa-3x green-text"></i>
+									</a>
+									<h5 class="grey-text lighten-2"><?= $answer['points'] ?></h5>
+									<a href="?page=question&id=<?= $_GET['id'] ?>&action=downvote&answer_id=<?= $answer['id'] ?>"
+									   class="edit-answer">
+										<i class="fas fa-caret-square-down fa-3x red-text"></i>
+									</a>
+								</div>
+								<div class="col s11 right">
+									<p><?= $answer['answer_text'] ?></p>
+								</div>
 							</div>
 						</div>
-          <?php endif; ?>
+						<div class="card-action">
+              <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id'] && !$already_approved_answer): ?>
+								<a href="?page=answer-approve&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>">
+									<i class="fas fa-check fa-2x green-text"></i>
+								</a>
+              <?php endif; ?>
+              <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
+								<h6 class="grey-text lighten-2">Authoren aktionen</h6>
+								<div class="row">
+									<div class="col s6">
+										<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
+										   class="edit-answer">
+											<i class="fas fa-edit fa-lg green-text"></i>
+										</a>
+										<a href="?page=answer-delete&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>"
+										   class="delete-answer">
+											<i class="fas fa-trash-alt fa-lg red-text"></i>
+										</a>
+									</div>
+								</div>
+              <?php endif; ?>
+						</div>
+					</div>
 				</div>
 			</div>
     <?php endforeach; ?>
