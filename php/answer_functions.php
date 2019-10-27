@@ -146,7 +146,7 @@ function setAnswer($values) {
 			)
 		";
   $query = mysqli_query(connection(), $sql);
-  
+
   if ($query) {
     return TRUE;
   }
