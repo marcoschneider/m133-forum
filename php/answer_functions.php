@@ -90,7 +90,8 @@ function getAnswersByQuestionId($qid, $limit = NULL) {
 				id,
 				answer_text,
         points,
-        approved
+        approved,
+			  fk_user
 			FROM m133_forum.answer
 			WHERE fk_question = " . $qid . "
 			" . $limit_sql . "
