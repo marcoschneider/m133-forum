@@ -1,7 +1,8 @@
 <form class="col s12" action="" method="post">
 	<div class="row">
 		<div class="input-field col s12">
-			<input id="current_password" type="password" name="current_password" class="validate">
+			<input id="current_password" type="password" name="current_password"
+			       class="validate">
 			<label for="current_password">Aktuelles Passwort</label>
 		</div>
 	</div>
@@ -13,7 +14,8 @@
 	</div>
 	<div class="row">
 		<div class="col s12">
-			<input type="submit" name="change_password" class="col s4 btn blue darken-3" value="Speichern"/>
+			<input type="submit" name="change_password"
+			       class="col s4 btn blue darken-3" value="Speichern"/>
 		</div>
 	</div>
 	<div class="row">

@@ -6,8 +6,8 @@ if (!isset($_SESSION['kernel']['userdata'])) {
 }
 
 if (isset($_GET['id'])) {
-	$result = setAnswerApproved($_GET['id']);
-	if ($result) {
-		header('Location: ?page=question&id=' . $_GET['question_id']);
-	}
+  $result = setAnswerApproved($_GET['id']);
+  if ($result) {
+    header('Location: ?page=question&id=' . $_GET['question_id']);
+  }
 }

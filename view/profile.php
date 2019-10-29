@@ -13,17 +13,17 @@ if (isset($_POST['update_user'])) {
     'first_name' => [
       'value' => $_POST['first_name'],
       'type' => 'text',
-      'required' => true,
+      'required' => TRUE,
     ],
     'last_name' => [
       'value' => $_POST['last_name'],
       'type' => 'text',
-      'required' => true,
+      'required' => TRUE,
     ],
     'username' => [
       'value' => $_POST['username'],
       'type' => 'text',
-      'required' => true,
+      'required' => TRUE,
     ],
   ]);
 
@@ -31,8 +31,8 @@ if (isset($_POST['update_user'])) {
   if (count($form_values['errors']) === 0) {
     $isSaved = updateUserdata($form_values['values']);
     if ($isSaved) {
-    	header('Location: ?' . $_SERVER['QUERY_STRING'] . '&message=success');
-    	$success_message = 'Benutzerdaten wurden gespeichert!';
+      header('Location: ?' . $_SERVER['QUERY_STRING'] . '&message=success');
+      $success_message = 'Benutzerdaten wurden gespeichert!';
     }
   }
 }
@@ -42,18 +42,18 @@ if (isset($_POST['change_password'])) {
     'current_password' => [
       'value' => $_POST['current_password'],
       'type' => 'password',
-      'required' => true,
+      'required' => TRUE,
     ],
     'password' => [
       'value' => $_POST['password'],
       'type' => 'password',
-      'required' => true,
-    ]
+      'required' => TRUE,
+    ],
   ]);
 
   $form_values['values']['uid'] = $user['uid'];
   if (count($form_values['errors']) === 0) {
-  	$isSaved = updatePassword($form_values['values']);
+    $isSaved = updatePassword($form_values['values']);
     if ($isSaved) {
       header('Location: ?' . $_SERVER['QUERY_STRING'] . '&message=success');
     }

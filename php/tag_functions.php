@@ -58,7 +58,7 @@ function setTag($qid, $tid) {
   $query = mysqli_query(connection(), $sql);
 
   if ($query) {
-    return true;
+    return TRUE;
   }
-  return false;
+  return FALSE;
 }

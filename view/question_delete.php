@@ -6,8 +6,8 @@ if (!isset($_SESSION['kernel']['userdata'])) {
 }
 
 if (isset($_GET['id'])) {
-	$result = deleteQuestionById($_GET['id']);
-	if ($result) {
-		header('Location: ?page=main');
-	}
+  $result = deleteQuestionById($_GET['id']);
+  if ($result) {
+    header('Location: ?page=main');
+  }
 }

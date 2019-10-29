@@ -6,9 +6,9 @@ if (!isset($_SESSION['kernel']['userdata'])) {
 }
 
 if (isset($_GET['id'])) {
-	$result = deleteAnswerById($_GET['id']);
-	var_dump($result);
-	if ($result) {
-		header('Location: ?page=question&id=' . $_GET['question_id']);
-	}
+  $result = deleteAnswerById($_GET['id']);
+  var_dump($result);
+  if ($result) {
+    header('Location: ?page=question&id=' . $_GET['question_id']);
+  }
 }

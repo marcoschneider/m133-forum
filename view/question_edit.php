@@ -161,7 +161,8 @@ if (isset($_POST['submit'])) {
   }
   ?>
 </div>
-<script src="https://kit.fontawesome.com/474c7db49a.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/474c7db49a.js"
+        crossorigin="anonymous"></script>
 <script type="text/javascript" src="./js/lib/jquery.min.js"></script>
 <script type="text/javascript" src="./js/lib/materialize.min.js"></script>
 <script type="text/javascript" src="./js/script.js"></script>

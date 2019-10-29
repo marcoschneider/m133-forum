@@ -152,7 +152,7 @@ function deleteQuestionById($qid) {
   $conn = connection();
 
   $answers = getQuestionsAnswers($qid);
-  foreach($answers['answers'] as $answer) {
+  foreach ($answers['answers'] as $answer) {
     $sql = "
       DELETE FROM
         m133_forum.answer
@@ -245,5 +245,5 @@ function setQuestion($values) {
       }
     }
   }
-  return true;
+  return TRUE;
 }

@@ -93,6 +93,7 @@ function getAnswersByQuestionId($qid, $limit = NULL) {
         approved
 			FROM m133_forum.answer
 			WHERE fk_question = " . $qid . "
+			ORDER BY points
 			" . $limit_sql . "
 		";
   $query = mysqli_query(connection(), $sql);

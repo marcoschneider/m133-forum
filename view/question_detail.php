@@ -31,12 +31,12 @@ if (isset($_GET['id'])) {
   $tags = getQuestionsTags($_GET['id']);
   $topics = getQuestionsTopics($_GET['id']);
   updateQuestionsViews($_GET['id'], $question_and_answers['question']['views']);
-  $already_approved_answer = false;
+  $already_approved_answer = FALSE;
 
   foreach ($question_and_answers['answers'] as $answer) {
-  	if ($answer['approved']) {
-  		$already_approved_answer = true;
-	  }
+    if ($answer['approved']) {
+      $already_approved_answer = TRUE;
+    }
   }
 
   if (isset($_POST['submit'])) {
@@ -169,7 +169,7 @@ if (isset($_GET['id'])) {
     <?php endif; ?>
 		<div class="row">
 			<div class="col s12">
-				<h4>Antworten</h4>
+				<h4><?= count($question_and_answers['answers']) ?> Antworten</h4>
 			</div>
 		</div>
     <?php if (count($question_and_answers['answers']) === 0): ?>
