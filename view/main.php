@@ -60,8 +60,8 @@
                     ' . $question["question_text"] . '
                     </a>
                     <div>
-                      <p class="grey-text lighten-2">Antworten</p>
                       <div class="divider"></div>
+                      <p class="grey-text lighten-2">Antworten</p>
                       ' . $answers_markup . '
                     </div>
                   </div>

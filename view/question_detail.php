@@ -3,11 +3,11 @@
 	require_once "php/tag_functions.php";
 	require_once "php/topic_functions.php";
 	require_once "php/config.inc.php";
-	
+
 	if (!isset($_SESSION['kernel']['userdata'])) {
 		header('Location: ?page=login');
 	}
-	
+
 	if (isset($_GET['id'])) {
 		if (isset($_GET['action'])) {
 			switch ($_GET['action']) {
@@ -31,16 +31,15 @@
 		$tags = getQuestionsTags($_GET['id']);
 		$topics = getQuestionsTopics($_GET['id']);
 		updateQuestionsViews($_GET['id'], $question_and_answers['question']['views']);
-		
-		var_dump($question_and_answers);
+
 		$already_approved_answer = false;
-		
+
 		foreach ($question_and_answers['answers'] as $answer) {
 			if ($answer['approved']) {
 				$already_approved_answer = true;
 			}
 		}
-		
+
 		if (isset($_POST['submit'])) {
 			$form_values = validateForm([
 				'answer_text' => [
@@ -58,7 +57,7 @@
 				}
 			}
 		}
-		
+
 		if (isset($_POST['edit_answer'])) {
 			$form_values = validateForm([
 				'answer_text' => [
