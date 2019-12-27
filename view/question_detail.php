@@ -31,6 +31,7 @@ if (isset($_GET['id'])) {
   $tags = getQuestionsTags($_GET['id']);
   $topics = getQuestionsTopics($_GET['id']);
   updateQuestionsViews($_GET['id'], $question_and_answers['question']['views']);
+
   $already_approved_answer = FALSE;
 
   foreach ($question_and_answers['answers'] as $answer) {
@@ -130,6 +131,8 @@ if (isset($_GET['id'])) {
 						Views: <?= $question_and_answers['question']['views'] ?></p>
 					<p class="grey-text lighten-2">Anzahl
 						Antworten: <?= count($question_and_answers['answers']) ?></p>
+					<p class="grey-text lighten-2">Autor:
+						@<?= $question_and_answers['question']['username'] ?></p>
 				</div>
 			</div>
 		</div>
@@ -169,7 +172,7 @@ if (isset($_GET['id'])) {
     <?php endif; ?>
 		<div class="row">
 			<div class="col s12">
-				<h4><?= count($question_and_answers['answers']) ?> Antworten</h4>
+				<h4>Antworten</h4>
 			</div>
 		</div>
     <?php if (count($question_and_answers['answers']) === 0): ?>
@@ -208,7 +211,7 @@ if (isset($_GET['id'])) {
 						</div>
 						<div class="card-action">
               <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id'] && !$already_approved_answer): ?>
-                <h6 class="grey-text lighten-2">Antwort Aktionen:</h6>
+								<h6 class="grey-text lighten-2">Antwort Aktionen:</h6>
 								<a href="?page=answer-approve&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>">
 									<i class="fas fa-check fa-2x green-text"></i>
 								</a>
@@ -217,8 +220,9 @@ if (isset($_GET['id'])) {
 								<h6 class="grey-text lighten-2">Autoren aktionen</h6>
 								<div class="row">
 									<div class="col s6">
-										<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
-										   class="edit-answer">
+										<a
+												href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
+												class="edit-answer">
 											<i class="fas fa-edit fa-lg green-text"></i>
 										</a>
 										<a href="?page=answer-delete&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>"
