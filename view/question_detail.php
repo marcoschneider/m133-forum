@@ -208,12 +208,13 @@ if (isset($_GET['id'])) {
 						</div>
 						<div class="card-action">
               <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id'] && !$already_approved_answer): ?>
+                <h6 class="grey-text lighten-2">Antwort Aktionen:</h6>
 								<a href="?page=answer-approve&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>">
 									<i class="fas fa-check fa-2x green-text"></i>
 								</a>
               <?php endif; ?>
-              <?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
-								<h6 class="grey-text lighten-2">Authoren aktionen</h6>
+              <?php if ($answer['fk_user'] === $_SESSION['kernel']['userdata']['id']): ?>
+								<h6 class="grey-text lighten-2">Autoren aktionen</h6>
 								<div class="row">
 									<div class="col s6">
 										<a href="?page=question&id=<?= $_GET['id'] ?>&action=answer-edit&answer_id=<?= $answer['id'] ?>"
