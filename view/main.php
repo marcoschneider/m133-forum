@@ -1,7 +1,7 @@
 <?php
 require_once "php/question_functions.php";
 
-if (!isset($_SESSION['kernel']['userdata'])) {
+if (!isset($_SESSION['userdata'])) {
 	header('Location: ?page=login');
 }
 
@@ -35,7 +35,7 @@ $questions = getAllQuestions();
       </div>
     </nav>
     <div class="container question-overview">
-      <h3>Hallo <?= $_SESSION['kernel']['userdata']['username'] ?></h3>
+      <h3>Hallo <?= $_SESSION['userdata']['username'] ?></h3>
       <div class="row">
 				<?php
 				$limit = 3;
@@ -60,8 +60,8 @@ $questions = getAllQuestions();
                     ' . $question["question_text"] . '
                     </a>
                     <div>
-                      <p class="grey-text lighten-2">Antworten</p>
                       <div class="divider"></div>
+                      <p class="grey-text lighten-2">Antworten</p>
                       ' . $answers_markup . '
                     </div>
                   </div>

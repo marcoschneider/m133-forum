@@ -1,7 +1,7 @@
 <?php
 require_once "php/answer_functions.php";
 
-if (!isset($_SESSION['kernel']['userdata'])) {
+if (!isset($_SESSION['userdata'])) {
 	header('Location: ?page=login');
 }
 

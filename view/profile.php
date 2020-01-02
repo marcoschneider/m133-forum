@@ -2,11 +2,11 @@
 
 require_once "php/user_functions.php";
 
-if (!isset($_SESSION['kernel']['userdata'])) {
+if (!isset($_SESSION['userdata'])) {
 	header('Location: ?page=login');
 }
 
-$user = getUserById($_SESSION['kernel']['userdata']['id']);
+$user = getUserById($_SESSION['userdata']['id']);
 
 if (isset($_POST['update_user'])) {
 	$form_values = validateForm([

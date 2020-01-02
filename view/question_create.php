@@ -4,7 +4,7 @@ require_once "php/tag_functions.php";
 require_once "php/topic_functions.php";
 require_once "php/config.inc.php";
 
-if (!isset($_SESSION['kernel']['userdata'])) {
+if (!isset($_SESSION['userdata'])) {
 	header('Location: ?page=login');
 }
 
@@ -35,7 +35,7 @@ if (isset($_POST['submit'])) {
 		],
 	]);
 	
-	$form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
+	$form_values['values']['uid'] = $_SESSION['userdata']['id'];
 	if (count($form_values['errors']) === 0) {
 		$result = setQuestion($form_values['values']);
 		if ($result) {

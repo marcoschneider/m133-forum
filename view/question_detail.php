@@ -4,7 +4,7 @@ require_once "php/tag_functions.php";
 require_once "php/topic_functions.php";
 require_once "php/config.inc.php";
 
-if (!isset($_SESSION['kernel']['userdata'])) {
+if (!isset($_SESSION['userdata'])) {
 	header('Location: ?page=login');
 }
 
@@ -48,7 +48,7 @@ if (isset($_GET['id'])) {
 				'required' => TRUE,
 			],
 		]);
-		$form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
+		$form_values['values']['uid'] = $_SESSION['userdata']['id'];
 		$form_values['values']['question_id'] = $_GET['id'];
 		if (count($form_values['errors']) === 0) {
 			$isSaved = setAnswer($form_values['values']);
@@ -66,7 +66,7 @@ if (isset($_GET['id'])) {
 				'required' => TRUE,
 			],
 		]);
-		$form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
+		$form_values['values']['uid'] = $_SESSION['userdata']['id'];
 		$form_values['values']['answer_id'] = $_GET['answer_id'];
 		if (count($form_values['errors']) === 0) {
 			$isSaved = updateAnswerById($form_values['values']['answer_id'], $form_values['values']['answer_text']);
@@ -113,7 +113,7 @@ if (isset($_GET['id'])) {
               <h3><?= $question_and_answers['question']['question_text'] ?></h3>
             </div>
             <div class="col s3">
-							<?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id']): ?>
+							<?php if ($question_and_answers['question']['uid'] === $_SESSION['userdata']['id']): ?>
                 <a href="?page=question-delete&id=<?= $_GET['id'] ?>"
                    class="btn-floating btn-large right red">
                   <i class="material-icons">delete</i>
@@ -209,13 +209,13 @@ if (isset($_GET['id'])) {
                   </div>
                 </div>
                 <div class="card-action">
-									<?php if ($question_and_answers['question']['uid'] === $_SESSION['kernel']['userdata']['id'] && !$already_approved_answer): ?>
+									<?php if ($question_and_answers['question']['uid'] === $_SESSION['userdata']['id'] && !$already_approved_answer): ?>
                     <h6 class="grey-text lighten-2">Antwort Aktionen:</h6>
                     <a href="?page=answer-approve&id=<?= $answer['id'] ?>&question_id=<?= $_GET['id'] ?>">
                       <i class="fas fa-check fa-2x green-text"></i>
                     </a>
 									<?php endif; ?>
-									<?php if ($answer['fk_user'] === $_SESSION['kernel']['userdata']['id']): ?>
+									<?php if ($answer['fk_user'] === $_SESSION['userdata']['id']): ?>
                     <h6 class="grey-text lighten-2">Autoren aktionen</h6>
                     <div class="row">
                       <div class="col s6">
