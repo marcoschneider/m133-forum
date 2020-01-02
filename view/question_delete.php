@@ -2,7 +2,7 @@
 require_once "php/question_functions.php";
 
 if (!isset($_SESSION['kernel']['userdata'])) {
-  header('Location: ?page=login');
+	header('Location: ?page=login');
 }
 
 if (isset($_GET['id'])) {

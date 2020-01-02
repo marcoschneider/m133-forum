@@ -1,31 +1,31 @@
 <?php
-  require_once "php/user_functions.php";
+require_once "php/user_functions.php";
 
-	$values = [];
-	$errors = [];
-	if (isset($_POST['submit'])) {
-		if (isset($_POST['username']) && $_POST['username'] != '') {
-			$values['username'] = htmlspecialchars($_POST['username']);
-		} else {
-			$errors['username'] = "Bitte den Benutzernamen angeben";
-		}
-
-		if (isset($_POST['password']) && $_POST['password'] != '') {
-			$values['pass'] = htmlspecialchars($_POST['password']);
-		} else {
-			$errors['pass'] = "Bitte das Passwort angeben";
-		}
-
-
-		if (count($errors) === 0) {
-			$login = login($values);
-			if ($login === true) {
-				header('Location: ?page=main');
-			} else {
-				$errors['login'] = $login;
-      }
-    }
+$values = [];
+$errors = [];
+if (isset($_POST['submit'])) {
+	if (isset($_POST['username']) && $_POST['username'] != '') {
+		$values['username'] = htmlspecialchars($_POST['username']);
+	} else {
+		$errors['username'] = "Bitte den Benutzernamen angeben";
 	}
+	
+	if (isset($_POST['password']) && $_POST['password'] != '') {
+		$values['pass'] = htmlspecialchars($_POST['password']);
+	} else {
+		$errors['pass'] = "Bitte das Passwort angeben";
+	}
+	
+	
+	if (count($errors) === 0) {
+		$login = login($values);
+		if ($login === true) {
+			header('Location: ?page=main');
+		} else {
+			$errors['login'] = $login;
+		}
+	}
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -65,13 +65,13 @@
             </div>
             <div class="row">
 							<?php
-                if (isset($errors)) {
-									echo '<div class="col s12 error-message">';
-									foreach ($errors as $error) {
-										echo '<p class="red white-text">' . $error . '</p>';
-									}
-									echo '</div>';
+							if (isset($errors)) {
+								echo '<div class="col s12 error-message">';
+								foreach ($errors as $error) {
+									echo '<p class="red white-text">' . $error . '</p>';
 								}
+								echo '</div>';
+							}
 							?>
             </div>
           </form>

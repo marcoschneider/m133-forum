@@ -1,48 +1,48 @@
 <?php
-	require_once "php/question_functions.php";
-	require_once "php/tag_functions.php";
-	require_once "php/topic_functions.php";
-	require_once "php/config.inc.php";
+require_once "php/question_functions.php";
+require_once "php/tag_functions.php";
+require_once "php/topic_functions.php";
+require_once "php/config.inc.php";
 
-	if (!isset($_SESSION['kernel']['userdata'])) {
-		header('Location: ?page=login');
-	}
+if (!isset($_SESSION['kernel']['userdata'])) {
+	header('Location: ?page=login');
+}
 
-	$tags = getAllTags();
-	$topics = getAllTopics();
+$tags = getAllTags();
+$topics = getAllTopics();
 
-	if (isset($_POST['submit'])) {
-		$form_values = validateForm([
-		  'question_text' => [
-		    'value' => $_POST['question_text'],
-        'type' => 'text',
-        'required' => true,
-      ],
-      'question_description' => [
-        'value' => $_POST['question_description'],
-        'type' => 'textarea',
-        'required' => true,
-      ],
-      'question_tags' => [
-        'value' => isset($_POST['question_tags']) ? $_POST['question_tags'] : null,
-        'type' => 'select_multiple',
-        'required' => false,
-      ],
-			'question_topics' => [
-				'value' => isset($_POST['question_topics']) ? $_POST['question_topics'] : null,
-				'type' => 'select_multiple',
-				'required' => false,
-			],
-		]);
-
-		$form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
-		if (count($form_values['errors']) === 0) {
-			$result = setQuestion($form_values['values']);
-			if ($result) {
-				header('Location: ?page=main');
-			}
+if (isset($_POST['submit'])) {
+	$form_values = validateForm([
+		'question_text' => [
+			'value' => $_POST['question_text'],
+			'type' => 'text',
+			'required' => true,
+		],
+		'question_description' => [
+			'value' => $_POST['question_description'],
+			'type' => 'textarea',
+			'required' => true,
+		],
+		'question_tags' => [
+			'value' => isset($_POST['question_tags']) ? $_POST['question_tags'] : null,
+			'type' => 'select_multiple',
+			'required' => false,
+		],
+		'question_topics' => [
+			'value' => isset($_POST['question_topics']) ? $_POST['question_topics'] : null,
+			'type' => 'select_multiple',
+			'required' => false,
+		],
+	]);
+	
+	$form_values['values']['uid'] = $_SESSION['kernel']['userdata']['id'];
+	if (count($form_values['errors']) === 0) {
+		$result = setQuestion($form_values['values']);
+		if ($result) {
+			header('Location: ?page=main');
 		}
 	}
+}
 ?>
 <!DOCTYPE html>
 <html lang="de">
@@ -59,12 +59,12 @@
     <nav>
       <div class="nav-wrapper blue darken-3">
         <a href="?page=main" class="brand-logo">
-	        <i class="fab fa-buffer fa-2x"></i> stackoverflow
+          <i class="fab fa-buffer fa-2x"></i> stackoverflow
         </a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-	        <li>
-		        <a href="?page=main">Fragen</a>
-	        </li>
+          <li>
+            <a href="?page=main">Fragen</a>
+          </li>
           <li>
             <a href="?page=profile&profile=userdata">Profil</a>
           </li>
@@ -92,8 +92,8 @@
             <div class="input-field col s12">
               <select id="question_tags" name="question_tags[]" multiple>
                 <option value="" disabled selected>Wähle Tags zu dieser Frage</option>
-                <?php foreach($tags as $tag):?>
-                  <option value="<?= $tag['id']?>"><?= $tag['tag_name']?></option>
+								<?php foreach ($tags as $tag): ?>
+                  <option value="<?= $tag['id'] ?>"><?= $tag['tag_name'] ?></option>
 								<?php endforeach; ?>
               </select>
               <label for="question_tags">Tags</label>
@@ -101,8 +101,8 @@
             <div class="input-field col s12">
               <select id="question_topics" name="question_topics[]" multiple>
                 <option value="" disabled selected>Wähle Themen zu dieser Frage</option>
-								<?php foreach($topics as $topic):?>
-                  <option value="<?= $topic['id']?>"><?= $topic['topic_name']?></option>
+								<?php foreach ($topics as $topic): ?>
+                  <option value="<?= $topic['id'] ?>"><?= $topic['topic_name'] ?></option>
 								<?php endforeach; ?>
               </select>
               <label for="question_topics">Thema</label>
@@ -115,13 +115,13 @@
           </div>
         </form>
 				<?php
-					if (isset($form_values['errors']) && count($form_values['errors']) > 0) {
-						echo '<div class="col s12 error-message">';
-						foreach ($form_values['errors'] as $error) {
-							echo '<p class="red white-text">' . $error . '</p>';
-						}
-						echo '</div>';
+				if (isset($form_values['errors']) && count($form_values['errors']) > 0) {
+					echo '<div class="col s12 error-message">';
+					foreach ($form_values['errors'] as $error) {
+						echo '<p class="red white-text">' . $error . '</p>';
 					}
+					echo '</div>';
+				}
 				?>
       </div>
     </div>
